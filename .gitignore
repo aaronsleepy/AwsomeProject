@@ -9,14 +9,20 @@ dist/
 web-build/
 expo-env.d.ts
 
-# Native
-.kotlin/
+# Native - generated folders (Expo managed)
+/ios
+/android
+
+# Native - build artifacts
 *.orig.*
 *.jks
 *.p8
 *.p12
 *.key
 *.mobileprovision
+
+# Kotlin
+.kotlin/
 
 # Metro
 .metro-health-check*
@@ -30,12 +36,33 @@ yarn-error.*
 .DS_Store
 *.pem
 
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Linux
+*~
+
 # local env files
+.env
+.env.*
 .env*.local
 
 # typescript
 *.tsbuildinfo
 
-# generated native folders
-/ios
-/android
+# IDE
+.idea/
+*.iml
+*.swp
+*.swo
+
+# testing
+coverage/
+
+# logs
+*.log
+
+# bundle artifacts
+*.jsbundle
+*.hbc
