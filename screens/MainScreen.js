@@ -1,20 +1,38 @@
-import { FlatList, Platform, StyleSheet, Text, View } from "react-native";
+import { FlatList, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import InputForm from "../components/InputForm";
 import TodoItem from "../components/TodoItem";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
+import { logout } from "../redux/slices/authSlice";
 
 const MainScreen = () => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
   const todos = useSelector((state) => state.todo.todos);
   const todoTask = todos.filter((todo) => todo.state === "todo");
   const completedTask = todos.filter((todo) => todo.state === "done");
 
+  const handleLogOut = async () => {
+    try {
+      dispatch(logout());
+      navigation.navigate("Login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
-      <Text style={styles.pageTitle}>ToDo App</Text>
+      <View style={styles.headerContainer}>
+        <Text style={styles.pageTitle}>ToDo App</Text>
+        <TouchableOpacity style={styles.logOutButton} onPress={handleLogOut}>
+            <Text style={styles.logOutButtonText}>-</Text>
+        </TouchableOpacity>
+      </View>
       <View style={styles.listView}>
         <Text style={styles.listTitle}>할 일</Text>
         {todoTask.length !== 0 ? (
@@ -83,5 +101,24 @@ const styles = StyleSheet.create({
       fontSize: 15,
       lineHeight: 20,
       color: '#737373'
-  }
+  },
+  headerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  logOutButton: {
+    marginBottom: 25,
+    marginRight: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    width: 42,
+    height: 42,
+    backgroundColor: "rgba(0,0,0,0.7)",
+    borderRadius: 4,
+  },
+  logOutButtonText: {
+    color: "white",
+    fontSize: 25,
+  },
 });
